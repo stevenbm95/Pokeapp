@@ -4,13 +4,22 @@ const url = "https://pokeapi.co/api/v2/pokemon";
 
 
 
-const pokemonApi = async () => {
+export const pokemonApi = async () => {
   const response = await axios.get(url);
-  const pokemons = await response.data.results;
+  const results = await response.data.results;
+  const pokemons = results.map( (pokemon) => ({ ...pokemon, isFavorite: false}))
   return pokemons;
+}
+
+
+export const getPokemonInfo = async (name) => {  
+  const response = await axios.get(url + `/${name}`);
+  // console.log(response.data);
+  return response.data;
 }
 
 
 
 
-export default pokemonApi;
+
+// export default { pokemonApi, getPokemonInfo };
