@@ -5,7 +5,7 @@ import Button from "../common/Button";
 const home = () => {
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center space-y-10">
-      <img src="../public/pika.png" alt="logo" />
+      <img src="/pika.png" alt="logo" />
       <h2 className="text-3xl font-bold font-height-[26px]  text-center text-[#353535]">
         Welcome to Pokédex
       </h2>
