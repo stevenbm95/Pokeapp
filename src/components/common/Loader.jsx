@@ -23,7 +23,7 @@ const Loader = ({ animation }) => {
   return (
     <div ref={boxRef} className="flex flex-col justify-center  items-center">
       <img
-        src="../src/assets/Loadersvg.svg"
+        src="../public/Loadersvg.svg"
         alt="Loading..."
         className={`w-32 h-32`}
       />

@@ -48,7 +48,7 @@ const Modal = ({ pokemon, setIsOpen }) => {
     >
       <div className="m-auto relative w-full max-w-[570px] max-h-full">
         <div className="relative bg-white rounded-lg shadow-sm">
-          <div className="relative flex items-center justify-center h-[220px] w-full bg-cover bg-center bg-no-repeat  rounded-t dark:border-gray-600 border-gray-200 bg-[url(../src/assets/landscape.jpg)]">
+          <div className="relative flex items-center justify-center h-[220px] w-full bg-cover bg-center bg-no-repeat  rounded-t dark:border-gray-600 border-gray-200 bg-[url(../public/landscape.jpg)]">
             {revealPokemon ? (
               <Loader animation={animation} />
             ) : (
