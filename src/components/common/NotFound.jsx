@@ -6,7 +6,7 @@ const NotFound = () => {
   return (
     <div className="flex flex-col items-center justify-center space-y-5">
       <p className="text-3xl font-bold font-height-[26px] text-[#353535]">
-        Uh-oh!
+        Uh-oh! 
       </p>
       <p>You look lost on your journey!</p>
       <Link to="/">
