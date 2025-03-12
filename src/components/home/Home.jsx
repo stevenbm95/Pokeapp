@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import Button from "../common/Button";
 
 const home = () => {
   return (
@@ -13,9 +14,11 @@ const home = () => {
         to Trainers in the Pokémon world.
       </p>
       <Link to="/list">
-        <button className="bg-[#F22539] py-[11px] px-[20px] rounded-[60px] text-white font-bold hover:bg-[#e30c21] transition-all duration-200 hover:cursor-pointer">
+        {/* <button className="bg-[#F22539] py-[11px] px-[20px] rounded-[60px] text-white font-bold hover:bg-[#e30c21] transition-all duration-200 hover:cursor-pointer">
           Get started
-        </button>
+        </button> */}
+
+        <Button color="bg-[#F22539]" width="w-[131px]" height="h-[44px]"  text="Get started" hoverColor="hover:bg-[#e30c21]" />
       </Link>
     </div>
   );

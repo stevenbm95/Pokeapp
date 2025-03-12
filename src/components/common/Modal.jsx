@@ -1,34 +1,71 @@
-
-import { useEffect } from "react";
 import usePokemonStore from "../../store/pokemonStore";
+import StarIcon from "./StarIcon";
+import Button from "./Button";
+import Loader from "./Loader";
+import { useEffect, useState } from "react";
 
-const Modal = ({ setIsOpen }) => {
+const Modal = ({ pokemon, setIsOpen }) => {
   const { pokemonStore } = usePokemonStore();
+  const [revealPokemon, setRevealPokemon] = useState(true);
+  const { name, isFavorite, image, elements, weight, height } = pokemonStore;
+  const [copied, setCopied] = useState(false);
+  // const textToCopy = { name, elements, weight, height };
 
-  
-  const pokemon = pokemonStore;
+  // console.log(textToCopy);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setRevealPokemon(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const animation = {
+    y: 15,
+    rotation: 380,
+    duration: 2,
+    repeat: -2,
+    ease: "bounce.out",
+  };
+
+  const handleCopy = () => { 
+    const textToCopy  = `Name: ${name}\nTypes: ${elements}\nWeight: ${weight}\nHeight: ${height}`
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    })
+  }
 
   return (
     <div
       id="default-modal"
       tabIndex="-1"
       aria-hidden="true"
-      className="flex bg-[#f6f6f610] overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      className="flex overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center md:inset-0 h-[calc(100%-1rem)] max-h-full  mx-auto "
     >
-      <div className="m-auto relative p-4 w-full max-w-2xl max-h-full">
-        <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-          <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {pokemon.name}
-            </h3>
+      <div className="m-auto relative w-full max-w-[570px] max-h-full">
+        <div className="relative bg-white rounded-lg shadow-sm">
+          <div className="relative flex items-center justify-center h-[220px] w-full bg-cover bg-center bg-no-repeat  rounded-t dark:border-gray-600 border-gray-200 bg-[url(../src/assets/landscape.jpg)]">
+            {revealPokemon ? (
+              <Loader animation={animation} />
+            ) : (
+              <img
+                className="w-[180px] h-[180px] opacity-100 transition-opacity duration-1000 ease-in-out"
+                src={image}
+                alt="pokemon"
+              />
+            )}
+
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="absolute right-2 top-2 text-blue-300 bg-red-100 rounded-[50%] text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:cursor-pointer"
             >
               <svg
-                className="w-3 h-3"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -45,35 +82,34 @@ const Modal = ({ setIsOpen }) => {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-
           <div className="p-4 md:p-5 space-y-4">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Name: {pokemon.name}
+            <p className="text-base leading-relaxed text-[#5E5E5E]">
+              <strong>Name:</strong> {name}
             </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Weight: {pokemon.weight}
+            <p className="text-base leading-relaxed text-[#5E5E5E]">
+              <strong>Weight: </strong>
+              {weight}
             </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Height: {pokemon.height}
+            <p className="text-base leading-relaxed text-[#5E5E5E]">
+              <strong>Height: </strong>
+              {height}
             </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Types: { pokemon.types?.map((tp) => tp.type.name).join(", ") || "Tipos desconocidos"}
+            <p className="text-base leading-relaxed text-[#5E5E5E]">
+              <strong>Types: </strong>
+              {elements || "Tipos desconocidos"}
             </p>
           </div>
-          <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button
-              type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              I accept
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              type="button"
-              className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              Decline
-            </button>
+          <div className="flex justify-between  items-center p-4 md:p-5  dark:border-gray-600">
+            <Button
+              onClick={handleCopy}
+              width="w-[195px]"
+              height="h-[44px]"
+              text="Share to my friends"
+              color="bg-[#F22539]"
+              hoverColor="hover:bg-[#e30c21]"
+              />
+              {copied && <p className="text-2xl leading-relaxed text-[#5E5E5E] text-center">Copiado</p>}
+            <StarIcon pokemon={pokemon} size={50} isFavorite={isFavorite} />
           </div>
         </div>
       </div>
